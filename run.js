@@ -9,7 +9,7 @@
 // 
 
 //
-// Applies metadata to a repository according to :/.repo-metadata.jsonc
+// [GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc
 //
 
 const fs    = require("node:fs");

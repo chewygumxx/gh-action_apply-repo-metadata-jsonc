@@ -1,9 +1,8 @@
 {
     "name": "gh-action_apply-repo-metadata-jsonc",
-    "description": "GitHub Action: Applies metadata to a repository according to :/.repo-metadata.jsonc",
+    "description": "[GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc",
     "version": "1.0.0",
     "license": "GPL-3.0-only",
-    "private": true,
     "keywords": [
         "github-action",
         "repository",
