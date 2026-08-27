@@ -3,8 +3,8 @@
 
 # 
 # 
-# ~chewygumxx/schema_repo-metadata.git
-# ::: :/.github/actions/apply-repo-metadata-jsonc/action.yml
+# ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+# ::: :/action.yml
 # 
 # 
 
@@ -27,11 +27,12 @@ runs:
               node-version: '18'
 
         - name: Install Dependencies
+          shell: bash
           run: |
               npm ci --prefix "$GITHUB_ACTION_PATH"
 
         - name: Apply Metadata
-          shell: bash  # Dubious whether shell specification is necessary
+          shell: bash
           env:
               GITHUB_API_URL:    https://api.github.com
               GITHUB_TOKEN:      ${{ inputs.token }}

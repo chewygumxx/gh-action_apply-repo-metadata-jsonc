@@ -3,8 +3,8 @@
 
 // 
 // 
-// ~chewygumxx/schema_repo-metadata.git
-// ::: :/.github/actions/apply-repo-metadata-jsonc/run.js
+// ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+// ::: :/run.js
 // 
 // 
 
@@ -153,7 +153,7 @@ async function main() {
         }
 
         // Update topics (PUT /repos/{owner}/{repo}/topics)
-        if (repo.topics.length > 0) {
+        if (repo.topics) {
             await ghFetch(env, `/repos/${env.slug}/topics`, 'PUT', { names: repo.topics });
             log_update("topics", repo.topics.join(', '));
         }
