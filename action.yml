@@ -29,7 +29,7 @@ runs:
         - name: Install Dependencies
           shell: bash
           run: |
-              npm ci --prefix "$GITHUB_ACTION_PATH"
+              npm ci --omit=dev --prefix "$GITHUB_ACTION_PATH"
 
         - name: Apply Metadata
           shell: bash
