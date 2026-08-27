@@ -56,7 +56,15 @@ function envParse(env) {
         console.log("[INFO] No metadata file found at:", absolutePath);
         process.exit(0);
     }
-    const metadata = jsoncParser.parse(fs.readFileSync(absolutePath, 'utf8'));
+    const parseErrors = [];
+    const metadata = jsoncParser.parse(fs.readFileSync(absolutePath, 'utf8'), parseErrors);
+    if (parseErrors.length > 0) {
+        console.error(
+            `[FATAL] Failed to parse ${absolutePath}:`,
+            parseErrors.map(e => `${jsoncParser.printParseErrorCode(e.error)} at offset ${e.offset} (length ${e.length})`).join(', ')
+        );
+        process.exit(1);
+    }
 
     return {
         ghAPIURL: ghAPIURL,
