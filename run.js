@@ -16,7 +16,8 @@ const fs    = require("node:fs");
 const URL   = require("node:url").URL;
 const path  = require("node:path");
 
-const Ajv         = require("ajv");
+const Ajv         = require("ajv/dist/2020");
+const addFormats  = require("ajv-formats");
 const jsoncParser = require("jsonc-parser");
 
 function validURL(url) {
@@ -80,6 +81,7 @@ async function metaParse(meta) {
 
     // Validate
     const ajv      = new Ajv();
+    addFormats(ajv);
     const validate = ajv.compile(schema);
     if (!validate(meta)) throw new Error([
         `Failed to validate metadata against: ${meta.$schema}`,
