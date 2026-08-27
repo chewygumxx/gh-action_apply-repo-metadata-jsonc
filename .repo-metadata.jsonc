@@ -14,7 +14,7 @@
     "owner": "chewygumxx",
     "slug":  "chewygumxx/gh-action_apply-repo-metadata-jsonc",
     "default_branch": "main",
-    "description": "[GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc",
+    "description": "[GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc ",
     "license": {
         "filepath": "./LICENSE",
         "spdx_id": "GPL-3.0-only",
