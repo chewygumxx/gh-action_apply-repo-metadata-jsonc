@@ -23,5 +23,6 @@
     },
     "category": "gh-action",
     "keywords": [ "github-action", "metadata", "repository" ],
-    "language": "javascript"
+    "language": "javascript",
+    "immutable_releases": true
 }
