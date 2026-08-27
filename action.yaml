@@ -16,8 +16,7 @@ inputs:
         required: false
         default: .repo-metadata.jsonc
     token:
-        required: false
-        default: ${{ github.token }}
+        required: true
 runs:
     using: 'composite'
     steps:
