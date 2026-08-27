@@ -44,7 +44,7 @@ jobs:
                   private-key: ${{ secrets.METADATA_APP_PRIVATE_KEY }}
                   permission-administration: write
 
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - name: Apply Metadata
               uses: chewygumxx/gh-action_apply-repo-metadata-jsonc@v1
