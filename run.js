@@ -24,6 +24,10 @@ function validURL(url) {
     try{ new URL(url); return url; } catch { return false; }
 }
 
+function fmt(val) {
+    return typeof val === 'string' ? val : JSON.stringify(val, null, 2);
+}
+
 function envParse(env) {
     const ghAPIURL = validURL(env.GITHUB_API_URL) || "https://api.github.com";
     if (!validURL(ghAPIURL)) {
@@ -76,7 +80,7 @@ async function metaParse(meta) {
         "Error returned when fetching metadata JSONschema:",
         `.repo-metadata.jsonc -> $schema: ${meta.$schema}`,
         `HTTP GET Response: [${response.status}] ${response.statusText}`,
-        schema
+        fmt(schema)
     ].join('\n'));
 
     // Validate
@@ -85,7 +89,7 @@ async function metaParse(meta) {
     const validate = ajv.compile(schema);
     if (!validate(meta)) throw new Error([
         `Failed to validate metadata against: ${meta.$schema}`,
-        validate.errors
+        fmt(validate.errors)
     ].join('\n'));
     console.log("[INFO] Validated metadata successfully");
 
@@ -121,7 +125,7 @@ async function ghFetch(env, apiPath, method = 'GET', body = null) {
         throw new Error([ 
             `Error returned when calling ${env.ghAPIURL}${apiPath}:`,
             `GitHub API: [${response.status}] ${response.statusText}`,
-            json
+            fmt(json)
         ].join('\n'));
     }
 
