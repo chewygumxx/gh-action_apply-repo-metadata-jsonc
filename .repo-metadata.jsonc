@@ -9,7 +9,7 @@
 // 
 
 {
-    "$schema": "https://schema.cgxx.dev/repo-metadata/v0.0.1/schema.json",
+    "$schema": "https://schema.cgxx.dev/repo-metadata/v0.1.0/schema.json",
     "name":  "gh-action_apply-repo-metadata-jsonc",
     "owner": "chewygumxx",
     "slug":  "chewygumxx/gh-action_apply-repo-metadata-jsonc",

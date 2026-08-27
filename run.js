@@ -102,9 +102,34 @@ async function metaParse(meta) {
 
     // Parse
     return {
-        description: meta.description,
-        homepage:    meta.homepage,
-        topics:      meta.keywords
+        // PATCH /repos/{owner}/{repo}
+        description:                 meta.description,
+        homepage:                    meta.homepage,
+        visibility:                  meta.visibility,
+        archived:                    meta.archived,
+        is_template:                 meta.is_template,
+        has_issues:                  meta.has_issues,
+        has_projects:                meta.has_projects,
+        has_wiki:                    meta.has_wiki,
+        has_pull_requests:           meta.has_pull_requests,
+        allow_forking:               meta.allow_forking,
+        allow_squash_merge:          meta.allow_squash_merge,
+        allow_merge_commit:          meta.allow_merge_commit,
+        allow_rebase_merge:          meta.allow_rebase_merge,
+        allow_auto_merge:            meta.allow_auto_merge,
+        delete_branch_on_merge:      meta.delete_branch_on_merge,
+        allow_update_branch:         meta.allow_update_branch,
+        squash_merge_commit_title:   meta.squash_merge_commit_title,
+        squash_merge_commit_message: meta.squash_merge_commit_message,
+        merge_commit_title:          meta.merge_commit_title,
+        merge_commit_message:        meta.merge_commit_message,
+        web_commit_signoff_required: meta.web_commit_signoff_required,
+
+        // PUT /repos/{owner}/{repo}/topics
+        topics: meta.keywords,
+
+        // PUT|DELETE /repos/{owner}/{repo}/immutable-releases
+        immutable_releases: meta.immutable_releases
     }
 };
 
@@ -155,20 +180,25 @@ async function main() {
     }
 
     try {
-        // Update description & homepage (PATCH /repos/{owner}/{repo})
-        if (repo.description || repo.homepage) {
-            await ghFetch(env, `/repos/${env.slug}`, 'PATCH', {
-                description: repo.description,
-                homepage:    repo.homepage
-            });
-            if(repo.description) log_update("description", repo.description);
-            if(repo.homepage)    log_update("homepage",    repo.homepage);
+        const { topics, immutable_releases, ...settings } = repo;
+
+        // Update repository settings (PATCH /repos/{owner}/{repo})
+        const settingsToApply = Object.entries(settings).filter(([, val]) => val !== undefined);
+        if (settingsToApply.length > 0) {
+            await ghFetch(env, `/repos/${env.slug}`, 'PATCH', Object.fromEntries(settingsToApply));
+            for (const [key, val] of settingsToApply) log_update(key, val);
         }
 
         // Update topics (PUT /repos/{owner}/{repo}/topics)
-        if (repo.topics) {
-            await ghFetch(env, `/repos/${env.slug}/topics`, 'PUT', { names: repo.topics });
-            log_update("topics", repo.topics.join(', '));
+        if (topics) {
+            await ghFetch(env, `/repos/${env.slug}/topics`, 'PUT', { names: topics });
+            log_update("topics", topics.join(', '));
+        }
+
+        // Update immutable releases (PUT to enable, DELETE to disable — not part of the repo PATCH body)
+        if (immutable_releases !== undefined) {
+            await ghFetch(env, `/repos/${env.slug}/immutable-releases`, immutable_releases ? 'PUT' : 'DELETE');
+            log_update("immutable_releases", immutable_releases);
         }
 
         console.log('[NOTICE] Repository metadata update completed successfully.');
