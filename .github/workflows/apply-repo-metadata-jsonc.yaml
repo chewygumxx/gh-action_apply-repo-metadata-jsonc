@@ -5,7 +5,7 @@
 # 
 # 
 # ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
-# ::: :/template-workflow_apply-repo-metadata-jsonc.yaml
+# ::: :/.github/workflows/apply-repo-metadata-jsonc.yaml
 # 
 # 
 
@@ -15,7 +15,7 @@ description:
 on:
     push:
         paths:
-            - '.repo-metadata.jsonc'
+            - .repo-metadata.jsonc
 
 permissions:
     contents: read
