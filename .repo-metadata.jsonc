@@ -1,12 +1,12 @@
 // vim:set expandtab shiftwidth=4 filetype=jsonc:
 // SPDX-License-Identifier: GPL-3.0-only
 
-// 
-// 
+//
+//
 // ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
 // ::: :/.repo-metadata.jsonc
-// 
-// 
+//
+//
 
 {
     "$schema": "https://schema.cgxx.dev/repo-metadata/v0.1.0/schema.json",
