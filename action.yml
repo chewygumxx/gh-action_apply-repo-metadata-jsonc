@@ -34,7 +34,7 @@ runs:
         - name: Apply Metadata
           shell: bash
           env:
-              GITHUB_API_URL:    https://api.github.com
+              GITHUB_API_URL:    ${{ github.api_url }}
               GITHUB_TOKEN:      ${{ inputs.token }}
               GITHUB_REPOSITORY: ${{ github.repository }}
               METADATA_PATH:     ${{ inputs.metadata_path }}

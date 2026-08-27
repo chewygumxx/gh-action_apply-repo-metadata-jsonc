@@ -29,12 +29,11 @@ function fmt(val) {
 }
 
 function envParse(env) {
-    const ghAPIURL = validURL(env.GITHUB_API_URL) || "https://api.github.com";
-    if (!validURL(ghAPIURL)) {
+    const ghAPIURL = validURL(env.GITHUB_API_URL);
+    if (!ghAPIURL) {
         console.error(
-            "[FATAL] Both GITHUB_API_URL and ghAPIURL inline default invalid:",
-            `GITHUB_API_URL: ${env.GITHUB_API_URL}`,
-            `Inline default: ${ghAPIURL}`
+            "[FATAL] Environment variable missing or invalid: GITHUB_API_URL",
+            `GITHUB_API_URL: ${env.GITHUB_API_URL}`
         );
         process.exit(1);
     }
