@@ -1,0 +1,27 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+// SPDX-License-Identifier: GPL-3.0-only
+
+// 
+// 
+// ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+// ::: :/.repo-metadata.jsonc
+// 
+// 
+
+{
+    "$schema": "https://schema.cgxx.dev/repo-metadata/v0.0.1/schema.json",
+    "name":  "gh-action_apply-repo-metadata-jsonc",
+    "owner": "chewygumxx",
+    "slug":  "chewygumxx/gh-action_apply-repo-metadata-jsonc",
+    "default_branch": "main",
+    "description": "GitHub Action: Applies metadata to a repository according to :/.repo-metadata.jsonc",
+    "license": {
+        "filepath": "./LICENSE",
+        "spdx_id": "GPL-3.0-only",
+        "full_name": "GNU General Public License v3.0 only",
+        "url": "https://spdx.org/licenses/GPL-3.0-only"
+    },
+    "category": "gh-action",
+    "keywords": [ "github-action", "metadata", "repository" ],
+    "language": "javascript"
+}

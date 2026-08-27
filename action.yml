@@ -1,0 +1,41 @@
+# vim:set expandtab shiftwidth=4 filetype=yaml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+# 
+# 
+# ~chewygumxx/schema_repo-metadata.git
+# ::: :/.github/actions/apply-repo-metadata-jsonc/action.yml
+# 
+# 
+
+name: Apply repository metadata (JSONC)
+description: 
+    Applies metadata to a repository according to :/.repo-metadata.jsonc
+inputs:
+    metadata_path:
+        required: false
+        default: .repo-metadata.jsonc
+    token:
+        required: false
+        default: ${{ github.token }}
+runs:
+    using: 'composite'
+    steps:
+        - name: Initialise Node.js
+          uses: actions/setup-node@v4
+          with:
+              node-version: '18'
+
+        - name: Install Dependencies
+          run: |
+              npm ci --prefix "$GITHUB_ACTION_PATH"
+
+        - name: Apply Metadata
+          shell: bash  # Dubious whether shell specification is necessary
+          env:
+              GITHUB_API_URL:    https://api.github.com
+              GITHUB_TOKEN:      ${{ inputs.token }}
+              GITHUB_REPOSITORY: ${{ github.repository }}
+              METADATA_PATH:     ${{ inputs.metadata_path }}
+          run: |
+              node "$GITHUB_ACTION_PATH/run.js"
