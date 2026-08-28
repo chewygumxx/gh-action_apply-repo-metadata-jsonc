@@ -16,9 +16,9 @@
 # gh-action_apply-repo-metadata-jsonc
 
 A composite GitHub Action that reads `.repo-metadata.jsonc` from the
-consuming repo and pushes repository settings — description, homepage,
-topics, visibility, merge/branch options, feature toggles, and immutable
-releases — to GitHub via the REST API.
+consuming repo and pushes repository settings including description,
+homepage, topics, visibility, merge/branch options, feature toggles,
+and immutable releases to GitHub via the REST API.
 
 The metadata file is validated against a [JSON Schema][schema] fetched at
 runtime from its own `$schema` field, so schema changes are external to
@@ -43,11 +43,11 @@ If no metadata file is present at `metadata_path`, the action is a no-op.
 | Input           | Required | Default                | Description                                        |
 |-----------------|----------|------------------------|----------------------------------------------------|
 | `metadata_path` | No       | `.repo-metadata.jsonc` | Path to the JSONC metadata file to apply.          |
-| `token`         | Yes      | —                      | Token used to authenticate against the GitHub API. |
+| `token`         | Yes      | -                      | Token used to authenticate against the GitHub API. |
 
 ### Token permissions
 
-Every write this action makes — the repository-settings `PATCH`, the
+Every write this action makes the repository-settings `PATCH`, the
 topics `PUT`, and the immutable-releases `PUT`/`DELETE` — requires the
 `Administration: write` repository permission, per [GitHub's fine-grained
 permissions reference][gh-app-perms]. This isn't limited to
@@ -56,7 +56,7 @@ permissions reference][gh-app-perms]. This isn't limited to
 `Administration: write` for every field they accept, so even a metadata
 file that only sets `description` or `keywords` needs it.
 
-`GITHUB_TOKEN` can never carry this permission — `administration` isn't
+`GITHUB_TOKEN` can never carry this permission `administration` isn't
 one of the scopes exposed by a workflow's `permissions:` block, so no
 `permissions:` configuration makes `${{ github.token }}` work here. This
 is why `token` has no default and must always be supplied explicitly.
@@ -117,17 +117,16 @@ schema exists for other consumers of the same metadata file. Of those:
 - `immutable_releases` is applied via `PUT` (enable) or `DELETE` (disable)
   to `/repos/{owner}/{repo}/immutable-releases`, since it isn't part of
   the repo PATCH body.
-- The remaining repository-settings fields — `visibility`, `archived`,
-  `is_template`, `has_issues`, `has_projects`, `has_wiki`,
+- The remaining repository-settings fields including, `visibility`,
+  `archived`, `is_template`, `has_issues`, `has_projects`, `has_wiki`,
   `has_pull_requests`, `allow_forking`, the `allow_*_merge` /
   `delete_branch_on_merge` / `allow_update_branch` merge options, the
   `squash_merge_commit_*` / `merge_commit_*` enums, and
-  `web_commit_signoff_required` — are passed through as-is to the same
+  `web_commit_signoff_required` are passed through as-is to the same
   `PATCH /repos/{owner}/{repo}` call.
 
-A field omitted from the metadata file is left untouched on GitHub — it
-is not reset to a default. A boolean explicitly set to `false` is still
-sent.
+A field omitted from the metadata file is left untouched on GitHub it is not
+reset to a default. A boolean explicitly set to `false` is still sent.
 
 ## Development
 
