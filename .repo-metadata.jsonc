@@ -3,26 +3,26 @@
 
 //
 //
-// ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+// ~chewygumxx/apply-repo-metadata-jsonc.git
 // ::: :/.repo-metadata.jsonc
 //
 //
 
 {
-    "$schema": "https://schema.cgxx.dev/repo-metadata/v0.1.0/schema.json",
-    "name":  "gh-action_apply-repo-metadata-jsonc",
+    "$schema": "https://raw.githubusercontent.com/chewygumxx/apply-repo-metadata-jsonc/refs/tags/v2/schema.json",
+    "name":  "apply-repo-metadata-jsonc",
     "owner": "chewygumxx",
-    "slug":  "chewygumxx/gh-action_apply-repo-metadata-jsonc",
+    "slug":  "chewygumxx/apply-repo-metadata-jsonc",
     "default_branch": "main",
     "description": "[GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc",
-    "license": {
-        "filepath": "./LICENSE",
-        "spdx_id": "GPL-3.0-only",
-        "full_name": "GNU General Public License v3.0 only",
-        "url": "https://spdx.org/licenses/GPL-3.0-only"
-    },
-    "category": "gh-action",
-    "keywords": [ "github-action", "metadata", "repository" ],
+    "category": "github-action",
+    "topics": [ "github-action", "metadata", "repository" ],
     "language": "javascript",
-    "immutable_releases": true
+    "immutable_releases": true,
+    "license": {
+        "filepath":  "./LICENSE",
+        "spdx_id":   "GPL-3.0-only",
+        "full_name": "GNU General Public License v3.0 only",
+        "url":       "https://spdx.org/licenses/GPL-3.0-only"
+    }
 }

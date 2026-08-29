@@ -1,0 +1,250 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id":     "https://raw.githubusercontent.com/chewygumxx/apply-repo-metadata-jsonc/refs/tags/v2/schema.json",
+
+    "title": "Repository metadata",
+    "description": "Governs the '.repo-metadata.jsonc' file at the root of a given repository.",
+
+    "type": "object",
+    "required": [ "$schema" ],
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "Identifying HTTPS URL of the governing JSONschema.",
+            "enum": [ "https://raw.githubusercontent.com/chewygumxx/apply-repo-metadata-jsonc/refs/tags/v2/schema.json" ]
+        },
+        "name": {
+            "type": "string",
+            "description": "Short repository identifier, preferably lowercase.",
+            "pattern": "^[\\w](?:[\\w]|-(?=[\\w])){0,99}$",
+            "minLength": 1,
+            "maxLength": 100,
+            "examples": [ "dotfiles", "schema", "cloudflare-ddns" ]
+        },
+        "owner": {
+            "type": "string",
+            "description": "Repository owner (organization or user).",
+            "pattern": "^[\\w](?:[\\w]|-(?=[\\w])){0,38}$",
+            "minLength": 1,
+            "maxLength": 39,
+            "examples": [ "chewygumxx", "wh1zzyboy", "gigabot2114" ]
+        },
+        "slug": {
+            "type": "string",
+            "description": "The repository slug. Format: <username>/<repository>",
+            "pattern": "^[\\w](?:[\\w]|-(?=[\\w])){0,38}/[\\w](?:[\\w]|-(?=[\\w])){0,99}$",
+            "minLength": 3,
+            "maxLength": 140,
+            "examples": [ "chewygumxx/dotfiles", "fairyglade/ly", "hyprwm/Hyprland" ]
+        },
+        "default_branch": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Default branch name",
+            "examples": [ "main", "master" ]
+        },
+        "description": {
+            "type": "string",
+            "description": "Brief description of the repository.",
+            "minLength": 1,
+            "maxLength": 500,
+            "examples": [
+                "Proton Mail sieve filters for automatic label and decay of received email",
+                "Parses a quotes.json file, formats context, prints accordingly. Utilised as a shell post-initalisation splash.",
+                "Source file to initialise Zsh for repository. Repository root must be the real parent directory of this file."
+            ]
+        },
+        "license": {
+            "type": "object",
+            "description": "Repository license information, preferably in accordance with SPDX specification.",
+            "required": [ "filepath", "spdx_id" ],
+            "additionalProperties": false,
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "Relative filepath of license file to repo-metadata object file",
+                    "enum": [ "./LICENSE", "./COPYING" ]
+                },
+                "spdx_id": {
+                    "type": "string",
+                    "description": "License identifier according to https://spdx.org/licenses/",
+                    "pattern": "^[\\w](?:[\\w]|-(?=[\\w])|\\.(?=[\\w])){2,36}$",
+                    "minLength": 3,
+                    "maxLength": 37,
+                    "examples": [ "GPL-3.0-only", "MIT", "CC-BY-3.0" ]
+                },
+                "full_name": {
+                    "type": "string",
+                    "description": "Full name of the repository governing license",
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "examples": [
+                        "GNU General Public License v3.0 only",
+                        "MIT License",
+                        "Creative Commons Attribution 3.0 Unported"
+                    ]
+                },
+                "url": {
+                    "type": "string",
+                    "description": "License external file URL, preferably of https://spdx.org/licenses/{}",
+                    "format": "uri",
+                    "minLength": 10,
+                    "maxLength": 2000,
+                    "examples": [
+                        "https://spdx.org/licenses/GPL-3.0-only.html",
+                        "https://spdx.org/licenses/MIT.html",
+                        "https://spdx.org/licenses/CC-BY-3.0.html"
+                    ]
+                }
+            }
+        }, 
+        "homepage": {
+            "type": "string",
+            "description": "URL of associated homepage, documentation, or whatever most relevant.",
+            "format": "uri",
+            "minLength": 10,
+            "maxLength": 2000
+        },
+        "category": {
+            "type": "string",
+            "description": "The category per which this repository belongs. Only alphanumerics and hyphens, all lowercase, must start with an alphanumeric, and no consecutive hyphens.",
+            "pattern": "^[a-z0-9](?:[a-z0-9]|-(?=[a-z0-9])){0,49}$",
+            "minLength": 1,
+            "maxLength": 50,
+            "examples": [ "cloudflare-worker", "schema", "dotfiles" ]
+        },
+        "topics": {
+            "type": "array",
+            "description": "Descriptive keywords or tags typically employed for search indexing.",
+            "uniqueItems": true,
+            "maxItems": 20,
+            "items": {
+                "type": "string",
+                "description": "Only alphanumerics and hyphens, all lowercase, must start with an alphanumeric, and no consecutive hyphens.",
+                "minLength": 1,
+                "maxLength": 50,
+                "pattern": "^[a-z0-9](?:[a-z0-9]|-(?=[a-z0-9])){0,49}$",
+                "examples": [ "metadata", "media", "formatter", "config" ]
+            }
+        },
+        "language": {
+            "type": "string",
+            "description": "Primary language of the repository functional content.",
+            "minLength": 1,
+            "maxLength": 50,
+            "pattern": "^[\\w._+-]{1,50}$",
+            "examples": [ "zsh", "rust", "lua", "bash", "c", "javascript" ]
+        },
+        "visibility": {
+            "type": "string",
+            "description": "Repository visibility, `private` or `public`",
+            "enum": [ "private", "public" ]
+        },
+        "immutable_releases": {
+            "type": "boolean",
+            "description": "Whether this repository has immutable releases functionality enabled.",
+            "default": false
+        },
+        "archived": {
+            "type": "boolean",
+            "description": "Whether this repository is currently archived.",
+            "default": false
+        },
+        "is_template": {
+            "type": "boolean",
+            "description": "Whether this repository is available as a template",
+            "default": false
+        },
+        "has_issues": {
+            "type": "boolean",
+            "description": "Whether this repository permits issue creation",
+            "default": true
+        },
+        "has_projects": {
+            "type": "boolean",
+            "description": "Whether this repository has Projects functionality enabled",
+            "default": true
+        },
+        "has_wiki": {
+            "type": "boolean",
+            "description": "Whether this repository has Wiki functionality enabled",
+            "default": true
+        },
+        "has_pull_requests": {
+            "type": "boolean",
+            "description": "Whether this repository permits pull requests",
+            "default": true
+        },
+        "allow_forking": {
+            "type": "boolean",
+            "description": "Whether this repository allows private forks.",
+            "default": false
+        },
+        "allow_squash_merge": {
+            "type": "boolean",
+            "description": "Whether this repository permits squash-merging pull requests",
+            "default": true
+        },
+        "allow_merge_commit": {
+            "type": "boolean",
+            "description": "Whether this repository permits merging pull requests via merge commit",
+            "default": true
+        },
+        "allow_rebase_merge": {
+            "type": "boolean",
+            "description": "Whether this repository permits rebase-merging pull requests",
+            "default": true
+        },
+        "allow_auto_merge": {
+            "type": "boolean",
+            "description": "Whether this repository permits auto-merge pull requests",
+            "default": false
+        },
+        "delete_branch_on_merge": {
+            "type": "boolean",
+            "description": "Whether this repository deletes head branches pull request post-merge",
+            "default": false
+        },
+        "allow_update_branch": {
+            "type": "boolean",
+            "description": "Whether this repository mandates an out-of-date pull request head branch to update before merge",
+            "default": false
+        },
+        "squash_merge_commit_title": {
+            "type": "string",
+            "description": "Default squash merge commit title. Must be defined if squash_merge_commit_message is.",
+            "enum": [ "PR_TITLE", "COMMIT_OR_PR_TITLE" ]
+        },
+        "squash_merge_commit_message": {
+            "type": "string",
+            "description": "Default squash merge commit message. If defined, squash_merge_commit_title must also be.",
+            "enum": [ "PR_BODY", "COMMIT_MESSAGES", "BLANK" ]
+        },
+        "merge_commit_title": {
+            "type": "string",
+            "description": "Default merge commit title. Must be defined if merge_commit_message is.",
+            "enum": [ "PR_TITLE", "MERGE_MESSAGE" ]
+        },
+        "merge_commit_message": {
+            "type": "string",
+            "description": "Default merge commit message. If defined, merge_commit_title must also be.",
+            "enum": [ "PR_TITLE", "PR_BODY", "BLANK" ]
+        },
+        "web_commit_signoff_required": {
+            "type": "boolean",
+            "description": "Whether this repository mandates web commits from contributors be authenticated.",
+            "default": false
+        },
+        "custom": {
+            "type": "object",
+            "description": "Arbitrary custom metadata",
+            "additionalProperties": true
+        }
+    },
+    "dependencies": {
+        "squash_merge_commit_message": [ "squash_merge_commit_title" ],
+        "merge_commit_message":        [ "merge_commit_title" ]
+    }
+}

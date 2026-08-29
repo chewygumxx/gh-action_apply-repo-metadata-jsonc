@@ -1,13 +1,12 @@
-# vim:set expandtab shiftwidth=4 filetype=yaml:
-# vim:set foldlevel=5:
+# vim:set expandtab shiftwidth=4 filetype=yaml foldlevel=5:
 # SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
-# ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+#
+#
+# ~chewygumxx/apply-repo-metadata-jsonc.git
 # ::: :/.github/workflows/apply-repo-metadata-jsonc.yaml
-# 
-# 
+#
+#
 
 name: Apply repository metadata (JSONC)
 description: 
@@ -47,7 +46,7 @@ jobs:
             - uses: actions/checkout@v5
 
             - name: Apply Metadata
-              uses: chewygumxx/gh-action_apply-repo-metadata-jsonc@v1
+              uses: chewygumxx/apply-repo-metadata-jsonc@v2
               with:
                   metadata_path: .repo-metadata.jsonc
                   token: ${{ steps.app-token.outputs.token }}

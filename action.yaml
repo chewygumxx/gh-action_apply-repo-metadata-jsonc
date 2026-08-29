@@ -1,12 +1,12 @@
-# vim:set expandtab shiftwidth=4 filetype=yaml:
+# vim:set expandtab shiftwidth=4 filetype=yaml foldlevel=4:
 # SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
-# ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+#
+#
+# ~chewygumxx/apply-repo-metadata-jsonc.git
 # ::: :/action.yaml
-# 
-# 
+#
+#
 
 name: Apply repository metadata (JSONC)
 description: 
@@ -18,7 +18,7 @@ inputs:
     token:
         required: true
 runs:
-    using: 'composite'
+    using: composite
     steps:
         - name: Initialise Node.js
           uses: actions/setup-node@v5

@@ -1,12 +1,12 @@
 // vim:set expandtab shiftwidth=4 filetype=javascript:
 // SPDX-License-Identifier: GPL-3.0-only
 
-// 
-// 
-// ~chewygumxx/gh-action_apply-repo-metadata-jsonc.git
+//
+//
+// ~chewygumxx/apply-repo-metadata-jsonc.git
 // ::: :/run.js
-// 
-// 
+//
+//
 
 //
 // [GitHub Action] Applies metadata to a repository according to :/.repo-metadata.jsonc
@@ -16,9 +16,11 @@ const fs    = require("node:fs");
 const URL   = require("node:url").URL;
 const path  = require("node:path");
 
-const Ajv         = require("ajv/dist/2020");
+const Ajv         = require("ajv");
 const addFormats  = require("ajv-formats");
 const jsoncParser = require("jsonc-parser");
+
+const validSchema = "https://raw.githubusercontent.com/chewygumxx/apply-repo-metadata-jsonc/refs/tags/v2/schema.json";
 
 function validURL(url) {
     try{ new URL(url); return url; } catch { return false; }
@@ -76,8 +78,9 @@ function envParse(env) {
 
 async function metaParse(meta) {
     // Fetch JSONschema
-    if (!validURL(meta.$schema)) throw new Error(
-        `Failed to validate URL of metadata JSONschema: ${meta.$schema}`
+    if (meta.$schema !== validSchema) throw new Error(
+        `Failed to validate URL of metadata JSONschema: ${meta.$schema}\n` +
+        `Must be: ${validSchema}`
     );
     const response = await fetch(meta.$schema);
     const text = await response.text();
@@ -126,7 +129,7 @@ async function metaParse(meta) {
         web_commit_signoff_required: meta.web_commit_signoff_required,
 
         // PUT /repos/{owner}/{repo}/topics
-        topics: meta.keywords,
+        topics: meta.topics,
 
         // PUT|DELETE /repos/{owner}/{repo}/immutable-releases
         immutable_releases: meta.immutable_releases
@@ -137,7 +140,7 @@ async function ghFetch(env, apiPath, method = 'GET', body = null) {
     const headers = {
         'Authorization': `token ${env.token}`,
         'Accept': 'application/vnd.github+json',
-        'User-Agent': 'apply-repo-metadata-jsonc-action'
+        'User-Agent': 'chewygumxx/apply-repo-metadata-jsonc@v2'
     };
     if (body !== null) {
         headers['Content-Type'] = 'application/json';
@@ -195,13 +198,13 @@ async function main() {
             log_update("topics", topics.join(', '));
         }
 
-        // Update immutable releases (PUT to enable, DELETE to disable — not part of the repo PATCH body)
+        // Update immutable releases (PUT to enable, DELETE to disable)
         if (immutable_releases !== undefined) {
             await ghFetch(env, `/repos/${env.slug}/immutable-releases`, immutable_releases ? 'PUT' : 'DELETE');
             log_update("immutable_releases", immutable_releases);
         }
 
-        console.log('[NOTICE] Repository metadata update completed successfully.');
+        console.log("[NOTICE] Repository metadata update completed successfully.");
     } catch (err) {
         console.error("[FATAL] Failed to apply repository metadata:", err.message || err);
         process.exit(1);
