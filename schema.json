@@ -64,8 +64,7 @@
             "properties": {
                 "filepath": {
                     "type": "string",
-                    "description": "Relative filepath of license file to repo-metadata object file",
-                    "enum": [ "./LICENSE", "./COPYING" ]
+                    "description": "Filepath of license file to relative to repo-metadata object file"
                 },
                 "spdx_id": {
                     "type": "string",
