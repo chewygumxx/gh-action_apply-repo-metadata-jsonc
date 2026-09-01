@@ -11,12 +11,17 @@
 name: Apply repository metadata (JSONC)
 description: 
     Applies metadata to a repository according to :/.repo-metadata.jsonc
+branding:
+    icon:  list
+    color: black
+
 inputs:
     metadata_path:
         required: false
-        default: .repo-metadata.jsonc
+        default:  .repo-metadata.jsonc
     token:
         required: true
+
 runs:
     using: composite
     steps:
